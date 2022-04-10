@@ -14,11 +14,6 @@ namespace config
 
 		30,		// fps
 
-		false,	// switchServer
-		_URL_,	// serverUrl
-		7770,	// receivePort
-		false,	// showMsgDebug
-
 		true,	// saveRequestPack
 		true,	// saveResponsePack
 		DEF[0],	// savePackPath
@@ -56,11 +51,6 @@ namespace config
 
 			CONFIG_READ_PROPERTY(fps);
 
-			CONFIG_READ_PROPERTY(switchServer);
-			CONFIG_READ_PROPERTY(serverUrl);
-			CONFIG_READ_PROPERTY(receivePort);
-			CONFIG_READ_PROPERTY(showMsgDebug);
-
 			CONFIG_READ_PROPERTY(saveRequestPack);
 			CONFIG_READ_PROPERTY(saveResponsePack);
 
@@ -73,10 +63,6 @@ namespace config
 
 			CONFIG_READ_PROPERTY(forceClosingGame);
 
-			if (config.serverUrl.length() > 43 and config.switchServer)	
-				raiseError("Server address cannot be larger than 43 characters.");
-			if (config.switchServer and not config.enableConsole)
-				raiseError("You must enable the console to switch server.");
 			if (config.fps < -1)	config.fps = -1;
 
 			printf("Successfully loaded config in `econfig.json`\n");

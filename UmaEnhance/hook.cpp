@@ -16,35 +16,11 @@ extern void createConsole();
 	MH_CreateHook(_name_##_offset, _name_##_hook, &_name_##_orig); \
 	MH_EnableHook(_name_##_offset); 
 #pragma endregion
+
 #pragma region SET_FPS
 void* set_fps_orig = nullptr;
 void set_fps_hook(int value) {
 	return reinterpret_cast<decltype(set_fps_hook)*>(set_fps_orig)(config::get().fps);
-}
-#pragma endregion
-#pragma region SERVER_SWITCH
-bool isSendRequest = 0;
-void* switch_server_orig = nullptr;
-Il2CppString* switch_server_hook()
-{
-	/*
-	* Switch server by redefine the server url.
-	* Orginal url: https://api-umamusume.cygames.jp/umamusume
-	* The maximum length of customize url should be no bigger than 43
-	* to prevent the original url wchat_t array out of memory
-	*/
-	wstring T_url = s2ws(config::get().serverUrl);
-	int T_length = T_url.length();
-
-	auto url = reinterpret_cast<decltype(switch_server_hook)*>(switch_server_orig)();
-
-	memset(url->start_char, 0, sizeof(wchar_t) * 43);
-	for (int i = 0; i <= T_length; i++)	url->start_char[i] = T_url[i];
-	url->length = T_length;
-
-	printf("GameDefine-ServerUrl is set to `");
-	wcout << url->start_char << L"`" << endl;
-	return url;
 }
 #pragma endregion
 
@@ -57,18 +33,15 @@ int request_pack_hook (
 	int ret = reinterpret_cast<decltype(request_pack_hook)*>(request_pack_orig)(
 		src, dst, srcSize, dstCapacity);
 
-	auto outPath = (config::get().savePackPath+"\\").append(currentTime()).append("Q.msgpack");
-	writeFile(outPath, src, srcSize);
-	printf("Wrote request to %s\n", outPath.c_str());
-
-	
-
-	if (config::get().switchServer)	isSendRequest = true;
+	thread([src, srcSize]() {
+		auto outPath = (config::get().savePackPath + "\\").append(currentTime()).append("Q.msgpack");
+		writeFile(outPath, src, srcSize);
+		printf("Wrote request to %s\n", outPath.c_str());
+	}).detach();
 
 	return ret;
 }
 #pragma endregion
-
 
 #pragma region RESPONSE_MSGPACK
 void* response_pack_orig = nullptr;
@@ -79,44 +52,14 @@ int response_pack_hook(
 	int ret = reinterpret_cast<decltype(response_pack_hook)*>(response_pack_orig)(
 		src, dst, compressedSize, dstCapacity);
 
-	string outPath = (config::get().savePackPath+"\\").append(currentTime()).append("R.msgpack");
-	writeFile(outPath, dst, ret);
-	printf("Wrote response to %s\n", outPath.c_str());
+	thread([dst, ret]() {
+		string outPath = (config::get().savePackPath + "\\").append(currentTime()).append("R.msgpack");
+		writeFile(outPath, dst, ret);
+		printf("Wrote response to %s\n", outPath.c_str());
+	}).detach();
 
-
-	if (isSendRequest and config::get().switchServer)
-	{
-		int retry = 5, timeout = 5000;
-		for (; retry > 0; retry--)
-		{
-			if (server::ifReceive())
-			{
-
-
-				json j = json::parse("{\"response_code\": 1, \"data_headers\": {\"viewer_id\": 0, \"sid\": \"\", \"servertime\": 0, \"result_code\": 1, \"notifications\": {\"unread_information_exists\": 1}, \"server_list\": {\"resource_server\": \"prd-storage-umamusume.akamaized.net/dl/\", \"resource_server_cf\": \"prd-storage-umamusume.akamaized.net/dl/\", \"resource_server_login\": \"prd-storage-app-umamusume.akamaized.net/dl/\", \"resource_server_ingame\": \"prd-storage-game-umamusume.akamaized.net/dl/\"}}, \"data\": {\"attest\": 0, \"nonce\": \"\", \"terms_updated\": 0, \"is_tutorial\": 0, \"resource_version\": \"10005320:TcBFfYyi7yUr\"}}");
-				vector<uint8_t> new_buffer = json::to_msgpack(j);
-				char* new_dst = reinterpret_cast<char*>(&new_buffer[0]);
-				memset(dst, 0, dstCapacity);
-				memcpy(dst, new_dst, new_buffer.size());
-				ret = new_buffer.size();
-				break;
-			}
-			printf("Timeout, try reconnect after %3lfs, retry attempt left: %d\n", timeout / 1000.0, retry);
-			Sleep(timeout);
-		}
-		if (retry <= 0)
-			throw "Cannot receive response msgpack.";
-	}
-	/*
-	std::vector<char> buffer(dst, dst + ret);
-	json t = json::from_msgpack(buffer);
-	cout <<"MODIFY:" << t.dump() << endl;*/
 	return ret;
 }
-#pragma endregion
-
-#pragma region DUMP_ASSET_PATH
-
 #pragma endregion
 
 #pragma region HANDLE_GAME_CLOSE_EVENT
@@ -135,7 +78,7 @@ void initHook()
 
 	auto libnative_module = GetModuleHandle(L"libnative.dll");
 
-	if (true) 
+	if (config::get().fps != 0)
 	{
 		auto set_fps_addr = il2cpp_symbols::get_method_pointer(
 			"UnityEngine.CoreModule.dll", "UnityEngine",
@@ -161,16 +104,6 @@ void initHook()
 		MH_CreateHook(request_pack_ptr, request_pack_hook, &request_pack_orig);
 		MH_EnableHook(request_pack_ptr);
 		filesystem::create_directory("MsgPack");
-	}
-
-	if (config::get().switchServer) 
-	{
-		thread(server::initClient).detach();
-		auto switch_server_addr = il2cpp_symbols::get_method_pointer(
-			"umamusume.dll", "Gallop",
-			"GameDefine", "get_ApplicationServerUrl", 0
-		);
-		ADD_HOOK(switch_server, "Gallop.GameDefine.get_ApplicationServerUrl at %p \n");
 	}
 
 	if (config::get().forceClosingGame)

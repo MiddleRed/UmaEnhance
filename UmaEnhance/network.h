@@ -3,9 +3,7 @@
 
 namespace server
 {
-	void initClient();
-	bool ifReceive();
-	string getReceive();
+
 }
 
 namespace msg

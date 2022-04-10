@@ -9,11 +9,6 @@ namespace config
 
 		int fps;
 
-		bool switchServer;
-		string serverUrl;
-		int receivePort;
-		bool showMsgDebug;
-
 		bool saveRequestPack;
 		bool saveResponsePack;
 		string savePackPath;
