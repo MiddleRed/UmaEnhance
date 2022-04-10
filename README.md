@@ -1,8 +1,10 @@
 ## UmaEnhance
 English | [中文](README_zh.md)  
-A third-party plugin intergrates useful functions for customizing Uma Musume (ウマ娘) gaming experience. 
+  
+A third-party plugin with useful functions to customize & better Uma Musume (ウマ娘) gaming experience. 
 ## Usage
-Just download the release, and put `version.dll` file under the game exe folder.  
+**Only support game downloaded from Windows DMM Game Player.**  
+Download the `version.dll` file from release, and put this file under the game exe folder.  
 If you want to change the plugin settings, create `uconfig.json` file in the same folder. You can copy the example following to the file:  
 ```
 {
@@ -28,7 +30,7 @@ Force close the game to avoid unexpected memory error occurring when closing gam
 ## Build
 1. Install [vcpkg](vcpkg.io) , [Visual Studio 2022](https://visualstudio.microsoft.com/) (or latest)
 2. Clone the repository
-3. Build
+3. Build by Visual Studio
 ## Related repositories   
 Part of the code is from:  
 **[umamusume-localify](https://github.com/GEEKiDoS/umamusume-localify)**   
