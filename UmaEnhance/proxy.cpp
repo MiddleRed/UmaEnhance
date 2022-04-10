@@ -1,5 +1,5 @@
 /*
-*  _DLL folder's files are used to make dll, aren't related to any main function
+*  _DLL folder's files are used to make version.dll, aren't related to any main function
 *  Do not delete these files, it will cause the game cannot read version.dll and unable to run
 * 
 *  From https://github.com/CNA-Bld/EXNOA-CarrotJuicer from https://github.com/GEEKiDoS/umamusume-localify

@@ -1,11 +1,9 @@
-// Include frequently used headers and claims
+// Including frequently used things
 #pragma once
-
 
 #include <httplib.h>
 #include <MinHook.h>
 #include <nlohmann/json.hpp>
-
 
 #include <Windows.h>
 #include <thread>
@@ -16,13 +14,9 @@
 #include <sstream>
 #include <locale>
 
-
-
 #include "src/il2cpp/il2cpp_symbols.hpp"
 
-
 using namespace std;
-
 
 using json = nlohmann::json;
 

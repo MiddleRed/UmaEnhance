@@ -1,7 +1,6 @@
 #pragma once
 #include "uma.h"
 
-
 namespace config
 {
 	struct config_struct

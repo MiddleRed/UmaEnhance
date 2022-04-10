@@ -4,7 +4,7 @@ English | [中文](README_zh.md)
 A third-party plugin with useful functions to customize & better Uma Musume (ウマ娘) gaming experience. 
 ## Usage
 **Only support game downloaded from Windows DMM Game Player.**  
-Download the `version.dll` file from release, and put this file under the game exe folder.  
+Download the `version.dll` file from Releases, and put this file under the game exe folder.  
 If you want to change the plugin settings, create `uconfig.json` file in the same folder. You can copy the example following to the file:  
 ```
 {
@@ -25,7 +25,7 @@ Save the MsgPack sent by cilent. Default `false`
 #### `saveResponsePack`
 Save the MsgPack from server. Default `false`  
 #### `forceClosingGame`
-Force close the game to avoid unexpected memory error occurring when closing game. Default `false`
+Force close the game to avoid unexpected memory error occurring when closing it. Default `false`
 #### New features are in progress.
 ## Build
 1. Install [vcpkg](vcpkg.io) , [Visual Studio 2022](https://visualstudio.microsoft.com/) (or latest)

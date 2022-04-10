@@ -2,7 +2,7 @@
 第三方赛马娘插件，集成多个实用功能，可以用来自定义赛马娘游戏内容和提升游戏体验
 ## 开始使用
 **只支持从 Windows 平台 DMM 端下载的赛马娘**  
-从 release 中下载最新版本的 `version.dll` 文件，并将其放置在游戏 exe 目录底下。  
+从 Releases 中下载最新版本的 `version.dll` 文件，并将其放置在游戏 exe 目录底下。  
 如果你想改变插件的一些设置，在相同目录下创建一个 `uconfig.json` 文件。你可以复制粘贴下面给出的内容示范到此文件中：  
 ```
 {
@@ -23,7 +23,7 @@
 #### `saveResponsePack`
 保存从服务器发送的 MsgPack 文件。默认为 `false`  
 #### `forceClosingGame`
-强制关闭游戏，从而避免关闭游戏时出现内存错误。默认为 `false`
+强制关闭游戏，从而避免关闭游戏时出现内存错误的问题。默认为 `false`
 #### 更多功能正在开发中
 ## 生成
 1. 安装 [vcpkg](vcpkg.io) , [Visual Studio 2022](https://visualstudio.microsoft.com/) （或者最新版）

@@ -1,4 +1,4 @@
-// Mod function
+// Plugin itself functions
 #pragma once
 #include "uma.h"
 #include "config.h"

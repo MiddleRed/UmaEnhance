@@ -5,6 +5,7 @@
   "dependencies": [
     "minhook",
     "cpp-httplib",
-    "nlohmann-json"
+    "nlohmann-json",
+    "sqlitecpp"
   ]
 }

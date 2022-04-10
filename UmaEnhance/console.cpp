@@ -49,9 +49,6 @@ void createConsole()
 	thread(consoleCommand).detach();
 }
 
-
-
-
 void dump_bytes(void* pos)
 {
 	printf("Hex dump of %p\n", pos);
