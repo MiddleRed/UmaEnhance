@@ -1,0 +1,3 @@
+[submodule "UmaEnhance/src/thread-pool"]
+	path = UmaEnhance/src/thread-pool
+	url = https://github.com/mtrebi/thread-pool.git
