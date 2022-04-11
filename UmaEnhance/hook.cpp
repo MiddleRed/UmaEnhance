@@ -5,7 +5,6 @@
 #include "plugin.h"
 
 extern void createConsole();
-extern void consoleCommand();
 extern void dump_bytes(void* pos);
 
 #pragma region HOOK_MACRO

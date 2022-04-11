@@ -8,22 +8,15 @@
 {
     "fps":-1,
 
+    "inspectMsgPack":true,
     "saveRequestPack":false,
     "saveResponsePack":false,
     
-    "forceClosingGame":false
+    "forceClosingGame":true
 }
 ```
 你也可以手动添加一些其它的设置于此文件中。
-### 可用选项
-#### `fps`
-改变游戏fps。默认为 `-1` （没有限制）  
-#### `saveRequestPack`
-保存从游戏客户端发送的 MsgPack 文件。默认为 `false`  
-#### `saveResponsePack`
-保存从服务器发送的 MsgPack 文件。默认为 `false`  
-#### `forceClosingGame`
-强制关闭游戏，从而避免关闭游戏时出现内存错误的问题。默认为 `false`
+更多插件设置及具体使用方法，请查看 [Wiki](https://github.com/MiddleRed/UmaEnhance/wiki) 。
 #### 更多功能正在开发中
 ## 生成
 1. 安装 [vcpkg](vcpkg.io) , [Visual Studio 2022](https://visualstudio.microsoft.com/) （或者最新版）
@@ -36,9 +29,8 @@
 
 ## 特别感谢
 [@GEEKiDoS](https://github.com/GEEKiDoS)  
+[@CNA-Bld](https://github.com/CNA-Bld)  
 [@akemimadoka](https://github.com/akemimadoka)  
 [@chinosk114514](https://github.com/chinosk114514)  
-[@CNA-Bld](https://github.com/CNA-Bld)  
-
 ## 免责声明
 此项目内的所有资源和内容**仅供学习交流**使用。此项目里的相关工具可能会违反Cygames官方用户许可协议，一旦使用此项目中的任何工具，我们默认你已经清楚使用这些工具可能会造成的后果，我们不对因为使用本项目的任何工具而造成的**任何损失**负责。

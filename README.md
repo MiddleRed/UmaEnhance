@@ -10,23 +10,15 @@ If you want to change the plugin settings, create `uconfig.json` file in the sam
 {
     "fps":-1,
 
+    "inspectMsgPack":true,
     "saveRequestPack":false,
     "saveResponsePack":false,
     
-    "forceClosingGame":false
+    "forceClosingGame":true
 }
 ```
 You can also manually add other settings to it.  
-### Available settings
-#### `fps`
-Change the game fps. Default `-1` (Unlimit)  
-#### `saveRequestPack`
-Save the MsgPack sent by cilent. Default `false`  
-#### `saveResponsePack`
-Save the MsgPack from server. Default `false`  
-#### `forceClosingGame`
-Force close the game to avoid unexpected memory error occurring when closing it. Default `false`
-#### New features are in progress.
+To get more detailed information and usage about the plugin, please check [Wiki](https://github.com/MiddleRed/UmaEnhance/wiki).
 ## Build
 1. Install [vcpkg](vcpkg.io) , [Visual Studio 2022](https://visualstudio.microsoft.com/) (or latest)
 2. Clone the repository
@@ -38,9 +30,9 @@ Part of the code is from:
 
 ## Special Thanks
 [@GEEKiDoS](https://github.com/GEEKiDoS)  
+[@CNA-Bld](https://github.com/CNA-Bld)  
 [@akemimadoka](https://github.com/akemimadoka)  
 [@chinosk114514](https://github.com/chinosk114514)  
-[@CNA-Bld](https://github.com/CNA-Bld)  
 
 ## Disclaim
 All resources and contents in this repository are for learning **ONLY**. The code and tools in this repository may violate Cygames official EULA, and we assumed that you have clearly understood the potential consequences once you use these tools. We are not responsible for **ANY** damage or trouble caused by the use of the tools in this repository.
