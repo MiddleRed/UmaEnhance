@@ -18,7 +18,7 @@ If you want to change the plugin settings, create `uconfig.json` file in the sam
 }
 ```
 You can also manually add other settings to it.  
-To get more detailed information and usage about the plugin, please check [Wiki](https://github.com/MiddleRed/UmaEnhance/wiki).
+Check [Wiki](https://github.com/MiddleRed/UmaEnhance/wiki) to get more detailed information and usage about the plugin.
 ## Build
 1. Install [vcpkg](vcpkg.io) , [Visual Studio 2022](https://visualstudio.microsoft.com/) (or latest)
 2. Clone the repository
