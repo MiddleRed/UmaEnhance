@@ -79,6 +79,7 @@ int response_pack_hook(
 void* force_quit_orig = NULL;
 void force_quit_hook(void* _this){
 	plugin::HandleGameExit();
+	exit(0);
 }
 #pragma endregion
 

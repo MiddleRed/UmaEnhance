@@ -21,7 +21,6 @@ namespace plugin
 	void HandleGameExit()
 	{
 		pool.shutdown();
-		exit(0);
 	}
 }
 

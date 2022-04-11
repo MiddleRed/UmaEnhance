@@ -29,6 +29,7 @@ namespace msg
 		catch ( exception e )
 		{
 			printf("Error: %s\n",e.what());
+			return NULL;
 		}
 	}
 }
