@@ -171,15 +171,9 @@
     <ClCompile Include="hook.cpp" />
     <ClCompile Include="network.cpp" />
     <ClCompile Include="plugin.cpp" />
-    <ClCompile Include="proxy.cpp" />
     <ClCompile Include="src\il2cpp\il2cpp_symbols.cpp" />
     <ClCompile Include="utilities.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <MASM Include="version.asm" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="version.def" />
+    <ClCompile Include="_DLL\proxy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
@@ -190,6 +184,12 @@
     <ClInclude Include="src\thread-pool\include\ThreadPool.h" />
     <ClInclude Include="uma.h" />
     <ClInclude Include="utilities.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="_DLL\version.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="_DLL\version.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
