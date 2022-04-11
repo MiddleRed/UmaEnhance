@@ -1,11 +1,20 @@
-// Plugin itself functions
 #pragma once
 #include "uma.h"
 #include "config.h"
+#include "src/thread-pool/include/ThreadPool.h"
 
-namespace mod 
+namespace plugin 
 {
-	void refreshConfig() {
-		config::loadConfig();
-	}
+	void refreshConfig();
+
+	extern ThreadPool pool;
+	void initThreadPool();
+
+	void HandleGameExit();
+}
+
+namespace game
+{
+	void initDMMToken(json pack);
+	void fastReboot();
 }

@@ -8,8 +8,11 @@ void consoleCommand()
 	{
 		getline(cin, cmd);
 
-		if (cmd == "/cfg r")	mod::refreshConfig();
-		else if (cmd == "/cls")	system("cls");
+		if (cmd == "/cfg r")	plugin::refreshConfig();
+		else if (cmd == "/cls" or cmd == "/clear")	system("cls");
+		else if (cmd == "/fr" or cmd == "/fastreboot")	game::fastReboot();
+
+		else printf("Unknown command.\n");
 	}
 }
 

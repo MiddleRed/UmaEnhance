@@ -186,6 +186,8 @@
     <ClInclude Include="network.h" />
     <ClInclude Include="plugin.h" />
     <ClInclude Include="src\il2cpp\il2cpp_symbols.hpp" />
+    <ClInclude Include="src\thread-pool\include\SafeQueue.h" />
+    <ClInclude Include="src\thread-pool\include\ThreadPool.h" />
     <ClInclude Include="uma.h" />
     <ClInclude Include="utilities.h" />
   </ItemGroup>

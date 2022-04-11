@@ -2,9 +2,11 @@
 #include "utilities.h"
 #include "config.h"
 #include "network.h"
+#include "plugin.h"
 
-extern void dump_bytes(void* pos);
 extern void createConsole();
+extern void consoleCommand();
+extern void dump_bytes(void* pos);
 
 #pragma region HOOK_MACRO
 #define ADD_HOOK(_name_, _fmt_) \
@@ -33,11 +35,18 @@ int request_pack_hook (
 	int ret = reinterpret_cast<decltype(request_pack_hook)*>(request_pack_orig)(
 		src, dst, srcSize, dstCapacity);
 
-	thread([src, srcSize]() {
-		auto outPath = (config::get().savePackPath + "\\").append(currentTime()).append("Q.msgpack");
-		writeFile(outPath, src, srcSize);
-		printf("Wrote request to %s\n", outPath.c_str());
-	}).detach();
+	plugin::pool.submit([src, dst, srcSize, ret]()
+	{
+		if (config::get().saveRequestPack)
+		{
+			auto outPath = (config::get().savePackPath + "\\").append(currentTime()).append("Q.msgpack");
+			writeFile(outPath, src, srcSize);
+			printf("Wrote request to %s\n", outPath.c_str());
+		}
+
+		string buffer(src, srcSize);
+		game::initDMMToken(msg::praseRequestPack(buffer));
+	});
 
 	return ret;
 }
@@ -52,21 +61,24 @@ int response_pack_hook(
 	int ret = reinterpret_cast<decltype(response_pack_hook)*>(response_pack_orig)(
 		src, dst, compressedSize, dstCapacity);
 
-	thread([dst, ret]() {
-		string outPath = (config::get().savePackPath + "\\").append(currentTime()).append("R.msgpack");
-		writeFile(outPath, dst, ret);
-		printf("Wrote response to %s\n", outPath.c_str());
-	}).detach();
+	plugin::pool.submit([dst, ret]()
+	{
+		if (config::get().saveResponsePack)
+		{
+			string outPath = (config::get().savePackPath + "\\").append(currentTime()).append("R.msgpack");
+			writeFile(outPath, dst, ret);
+			printf("Wrote response to %s\n", outPath.c_str());
+		}
+	});
 
 	return ret;
 }
 #pragma endregion
 
-#pragma region HANDLE_GAME_CLOSE_EVENT
+#pragma region FORCE_GAME_CLOSE
 void* force_quit_orig = NULL;
-void force_quit_hook(void* _this)
-{
-	exit(0);
+void force_quit_hook(void* _this){
+	plugin::HandleGameExit();
 }
 #pragma endregion
 
@@ -87,23 +99,21 @@ void initHook()
 		ADD_HOOK(set_fps, "UnityEngine.Application.set_targetFrameRate at %p \n");
 	}
 
-	if (config::get().saveResponsePack) 
+	if (config::get().inspectMsgPack)
 	{
 		printf("libnative.dll at %p\n", libnative_module);
 		auto response_pack_ptr = GetProcAddress(libnative_module, "LZ4_decompress_safe_ext");
 		printf("reponse pack at %p\n", response_pack_ptr);
 		MH_CreateHook(response_pack_ptr, response_pack_hook, &response_pack_orig);
 		MH_EnableHook(response_pack_ptr);
-		filesystem::create_directory("MsgPack");
-	}
 
-	if (config::get().saveRequestPack)
-	{
 		auto request_pack_ptr = GetProcAddress(libnative_module, "LZ4_compress_default_ext");
 		printf("request pack at %p\n", request_pack_ptr);
 		MH_CreateHook(request_pack_ptr, request_pack_hook, &request_pack_orig);
 		MH_EnableHook(request_pack_ptr);
-		filesystem::create_directory("MsgPack");
+
+		filesystem::create_directory(config::get().savePackPath);
+		plugin::initThreadPool();
 	}
 
 	if (config::get().forceClosingGame)
@@ -114,7 +124,6 @@ void initHook()
 		);
 		ADD_HOOK(force_quit, "Gallop_GameSystem.onApplicationQuit at %p \n");
 	}
-	
 }
 
 

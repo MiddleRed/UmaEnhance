@@ -8,5 +8,5 @@ namespace server
 
 namespace msg
 {
-
+	json praseRequestPack(const string& data);
 }

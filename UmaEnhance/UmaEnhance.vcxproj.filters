@@ -31,6 +31,9 @@
     <Filter Include="Source Files\utilities">
       <UniqueIdentifier>{1735ec85-0c14-4105-8a81-85345b15944e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\ThreadPool">
+      <UniqueIdentifier>{7539e33b-9d12-4b28-8dac-ef829e21b68b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="proxy.cpp">
@@ -54,10 +57,10 @@
     <ClCompile Include="utilities.cpp">
       <Filter>Source Files\utilities</Filter>
     </ClCompile>
-    <ClCompile Include="console.cpp">
+    <ClCompile Include="hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="hook.cpp">
+    <ClCompile Include="console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,6 +92,12 @@
     </ClInclude>
     <ClInclude Include="uma.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\thread-pool\include\SafeQueue.h">
+      <Filter>Source Files\src\ThreadPool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\thread-pool\include\ThreadPool.h">
+      <Filter>Source Files\src\ThreadPool</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

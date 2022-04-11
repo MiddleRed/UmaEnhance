@@ -14,12 +14,10 @@ namespace config
 
 		30,		// fps
 
+		false,	// inspectMsgPack
 		true,	// saveRequestPack
 		true,	// saveResponsePack
 		DEF[0],	// savePackPath
-
-		0,		// printAssetPath;
-		DEF[1],	// saveAssetPathFilePath;
 
 		false,	// enableNotifier
 		"",		// notifierHost
@@ -51,11 +49,9 @@ namespace config
 
 			CONFIG_READ_PROPERTY(fps);
 
+			CONFIG_READ_PROPERTY(inspectMsgPack);
 			CONFIG_READ_PROPERTY(saveRequestPack);
 			CONFIG_READ_PROPERTY(saveResponsePack);
-
-			CONFIG_READ_PROPERTY(printAssetPath);
-			CONFIG_READ_PROPERTY(saveAssetPathFilePath);
 
 			CONFIG_READ_PROPERTY(enableNotifier);
 			CONFIG_READ_PROPERTY(notifierHost);

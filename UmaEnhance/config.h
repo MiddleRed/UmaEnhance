@@ -9,12 +9,10 @@ namespace config
 
 		int fps;
 
+		bool inspectMsgPack;
 		bool saveRequestPack;
 		bool saveResponsePack;
 		string savePackPath;
-
-		int printAssetPath;
-		string saveAssetPathFilePath;
 
 		bool enableNotifier;
 		string notifierHost;
