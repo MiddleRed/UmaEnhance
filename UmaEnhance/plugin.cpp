@@ -50,7 +50,7 @@ namespace game
 	{
 		if (not isDMMTokenLoaded)
 		{
-			printf("Error: Cannot reboot, can't read DMM Token. Did you enable `inspectMsgPack`?\n");
+			printf("Error: Unable to reboot, can't read DMM Token. Did you enable `inspectMsgPack`?\n");
 			return;
 		}
 		string rebootCMD = R"(
@@ -82,7 +82,7 @@ start "" umamusume.exe /viewer_id=)" + DMMViewerID +
 		}
 		else
 		{
-			printf("Cannot make reboot bat. Please try again.\n");
+			printf("Cannot make `reboot.bat`. Please try again.\n");
 		}
 	}
 }

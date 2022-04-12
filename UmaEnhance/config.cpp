@@ -6,13 +6,13 @@ namespace config
 {
 	string configFile = "uconfig.json";
 	string _URL_ = "https://api-umamusume.cygames.jp/umamusume";
-	string DEF[] = { "MsgPack","asset.txt" };
+	string DEF[] = { "MsgPack" };
 
 	config_struct config =
 	{
 		true,	// enableConsole
 
-		30,		// fps
+		0,		// fps
 
 		false,	// inspectMsgPack
 		true,	// saveRequestPack
@@ -61,11 +61,11 @@ namespace config
 
 			if (config.fps < -1)	config.fps = -1;
 
-			printf("Successfully loaded config in `econfig.json`\n");
+			printf("Successfully read config in `%s`\n", configFile.c_str());
 		}
 		catch (exception& e)
 		{
-			cout << "Exception reading config: " << e.what() << endl;
+			cout << "Exception occurred when reading config: " << e.what() << endl;
 		}
 	}
 

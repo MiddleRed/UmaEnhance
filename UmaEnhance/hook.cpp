@@ -40,7 +40,7 @@ int request_pack_hook (
 		{
 			auto outPath = (config::get().savePackPath + "\\").append(currentTime()).append("Q.msgpack");
 			writeFile(outPath, src, srcSize);
-			printf("Wrote request to %s\n", outPath.c_str());
+			printf("Save request to %s\n", outPath.c_str());
 		}
 
 		string buffer(src, srcSize);
@@ -66,7 +66,7 @@ int response_pack_hook(
 		{
 			string outPath = (config::get().savePackPath + "\\").append(currentTime()).append("R.msgpack");
 			writeFile(outPath, dst, ret);
-			printf("Wrote response to %s\n", outPath.c_str());
+			printf("Save response to %s\n", outPath.c_str());
 		}
 		if (config::get().enableNotifier)
 		{
