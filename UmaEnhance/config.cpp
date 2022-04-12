@@ -21,7 +21,7 @@ namespace config
 
 		false,	// enableNotifier
 		"",		// notifierHost
-		100,	// notifierConnectionTimeout
+		3000,	// notifierConnectionTimeout
 
 		false	// forceClosingGame
 	};

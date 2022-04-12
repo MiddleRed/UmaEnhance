@@ -1,9 +1,17 @@
 #pragma once
 #include "uma.h"
+#include <httplib.h>
 
 namespace server
 {
 
+}
+
+namespace client
+{
+	void initNotifier();
+
+	void notifyResponse(std::string& data);
 }
 
 namespace msg

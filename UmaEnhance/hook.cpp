@@ -68,6 +68,11 @@ int response_pack_hook(
 			writeFile(outPath, dst, ret);
 			printf("Wrote response to %s\n", outPath.c_str());
 		}
+		if (config::get().enableNotifier)
+		{
+			string data(dst, ret);
+			client::notifyResponse(data);
+		}
 	});
 
 	return ret;
@@ -113,7 +118,6 @@ void initHook()
 		MH_EnableHook(request_pack_ptr);
 
 		filesystem::create_directory(config::get().savePackPath);
-		plugin::initThreadPool();
 	}
 
 	if (config::get().forceClosingGame)
@@ -124,6 +128,10 @@ void initHook()
 		);
 		ADD_HOOK(force_quit, "Gallop_GameSystem.onApplicationQuit at %p \n");
 	}
+
+	// Init functions
+	plugin::initThreadPool();
+	if (config::get().enableNotifier)	thread(client::initNotifier).detach();
 }
 
 

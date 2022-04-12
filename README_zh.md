@@ -15,7 +15,7 @@
     "forceClosingGame":true
 }
 ```
-你也可以手动添加一些其它的设置于此文件中。
+你也可以手动添加一些其它的设置于此文件中。  
 更多插件设置及具体使用方法，请查看 [Wiki](https://github.com/MiddleRed/UmaEnhance/wiki) 。
 ## 生成
 1. 安装 [vcpkg](vcpkg.io) , [Visual Studio 2022](https://visualstudio.microsoft.com/) （或者最新版）
