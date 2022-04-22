@@ -15,7 +15,7 @@ namespace config
 		string savePackPath;
 
 		bool enableNotifier;
-		string notifierHost;
+		vector<string> notifierHost;
 		int notifierConnectionTimeout;
 
 		bool forceClosingGame;

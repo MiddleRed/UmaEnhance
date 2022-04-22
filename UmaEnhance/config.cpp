@@ -8,7 +8,6 @@ namespace config
 	string _URL_ = "https://api-umamusume.cygames.jp/umamusume";
 	string DEF[] = { "MsgPack" };
 	vector<string> EMPVS;
-	vector<bool> EMPBO;
 
 	config_struct config =
 	{
@@ -22,7 +21,7 @@ namespace config
 		DEF[0],	// savePackPath
 
 		false,	// enableNotifier
-		"",		// notifierHost
+		EMPVS,	// notifierHost
 		3000,	// notifierConnectionTimeout
 
 		false,	// forceClosingGame
@@ -61,20 +60,27 @@ namespace config
 			CONFIG_READ_PROPERTY(saveResponsePack);
 
 			CONFIG_READ_PROPERTY(enableNotifier);
-			CONFIG_READ_PROPERTY(notifierHost);
+			if (j.contains("notifierHost"))
+			{
+				auto& arr = j.at("notifierHost");
+				if (arr.is_array()) {
+					for (int i = 0; i < arr.size(); i++)
+						config.notifierHost.push_back(string(arr[i]));
+				}
+				else config.notifierHost.push_back(string(arr));
+			}
 			CONFIG_READ_PROPERTY(notifierConnectionTimeout);
 
 			CONFIG_READ_PROPERTY(forceClosingGame);
 
 			if (j.contains("bootExternalApp"))
 			{
-				auto& Applist = j.at("bootExternalApp");
-				if (Applist.is_array())
-				{
-					for (int i = 0; i < Applist.size(); i++)
-						config.bootExternalApp.push_back(string(Applist[i]));
+				auto& arr = j.at("bootExternalApp");
+				if (arr.is_array()) {
+					for (int i = 0; i < arr.size(); i++)
+						config.bootExternalApp.push_back(string(arr[i]));
 				}
-				else config.bootExternalApp.push_back(string(Applist));
+				else config.bootExternalApp.push_back(string(arr));
 			}
 			CONFIG_READ_PROPERTY(doExternalAppRelaunch);
 
