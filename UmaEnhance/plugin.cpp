@@ -18,6 +18,26 @@ namespace plugin
 		}
 	}
 
+	// Call this function to do someting when starting the game
+	void HandleGameLaunch()
+	{
+		struct stat buffer;
+		auto appList = config::get().bootExternalApp;
+		if (stat(string("reboot.bat").c_str(), &buffer) == 0)
+		{
+			remove(string("reboot.bat").c_str());
+			if (!config::get().doExternalAppRelaunch) 
+				goto notRelaunchExternalApp;
+		}
+		for (int i = 0; i < appList.size(); i++){
+			ShellExecuteA(NULL, "open", appList[i].c_str(), NULL, NULL, SW_SHOW);
+		}
+	notRelaunchExternalApp:
+
+		if (config::get().enableNotifier)	thread(client::initNotifier).detach();
+	}
+
+	// Call this function to do someting before exiting the game
 	void HandleGameExit()
 	{
 		pool.shutdown();
@@ -63,7 +83,7 @@ tasklist | find /i "umamusume.exe" >NUL
 if %ERRORLEVEL% == 0 goto waitloop
 
 start "" umamusume.exe /viewer_id=)" + DMMViewerID +
-" /onetime_token=" + DMMOnetimeToken + "\ndel reboot.bat";
+" /onetime_token=" + DMMOnetimeToken;
 		ofstream bat("reboot.bat");
 		if (bat.is_open())
 		{

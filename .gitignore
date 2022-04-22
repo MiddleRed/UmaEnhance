@@ -11,6 +11,7 @@
 *.sln.docstates
 vcpkg_installed/
 wiki/
+tmp/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

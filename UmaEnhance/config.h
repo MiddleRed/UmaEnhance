@@ -19,6 +19,9 @@ namespace config
 		int notifierConnectionTimeout;
 
 		bool forceClosingGame;
+
+		vector<string> bootExternalApp;
+		bool doExternalAppRelaunch;
 	};
 
 	void loadConfig();

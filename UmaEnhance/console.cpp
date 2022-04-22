@@ -31,9 +31,9 @@ void createConsole()
 	//printf("Special thanks to CNA-Bld & GEEKiDoS\n");
 	//printf("\nInitializing plugins...\n");
 
-	// avoid japanese characters being put abnormally
+	// Encoding set
 	SetConsoleOutputCP(CP_UTF8);
-	std::locale::global(std::locale(""));
+	std::locale::global(std::locale("C"));
 
 	// print error
 	const HANDLE handle = CreateFile(L"CONOUT$", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE,

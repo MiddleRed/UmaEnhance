@@ -18,7 +18,7 @@
 你也可以手动添加一些其它的设置于此文件中。  
 更多插件设置及具体使用方法，请查看 [Wiki](https://github.com/MiddleRed/UmaEnhance/wiki) 。
 ## 生成
-1. 安装 [vcpkg](vcpkg.io) , [Visual Studio 2022](https://visualstudio.microsoft.com/) （或者最新版）
+1. 安装 [vcpkg](https://vcpkg.io) , [Visual Studio 2022](https://visualstudio.microsoft.com/) （或者最新版）
 2. Clone 此项目
 3. 使用 Visual Studio 打开，生成
 ## 相关项目 

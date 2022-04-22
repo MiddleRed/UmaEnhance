@@ -128,10 +128,6 @@ void initHook()
 		);
 		ADD_HOOK(force_quit, "Gallop_GameSystem.onApplicationQuit at %p \n");
 	}
-
-	// Init functions
-	plugin::initThreadPool();
-	if (config::get().enableNotifier)	thread(client::initNotifier).detach();
 }
 
 
@@ -159,8 +155,11 @@ HMODULE __stdcall load_library_w_hook(const wchar_t* path)
 void HookAttach()
 {
 	config::loadConfig();
-
 	if (config::get().enableConsole)	createConsole();
+
+	plugin::initThreadPool();
+	plugin::pool.submit(plugin::HandleGameLaunch);
+
 	if (MH_Initialize() != MH_OK)
 	{
 		printf("Failed to initialize plugins, please restart the game.\n");

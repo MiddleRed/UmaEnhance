@@ -7,6 +7,8 @@ namespace config
 	string configFile = "uconfig.json";
 	string _URL_ = "https://api-umamusume.cygames.jp/umamusume";
 	string DEF[] = { "MsgPack" };
+	vector<string> EMPVS;
+	vector<bool> EMPBO;
 
 	config_struct config =
 	{
@@ -23,8 +25,12 @@ namespace config
 		"",		// notifierHost
 		3000,	// notifierConnectionTimeout
 
-		false	// forceClosingGame
+		false,	// forceClosingGame
+
+		EMPVS,	// bootExternalApp
+		false	// doExternalAppRelaunch
 	};
+	config_struct config_default = config;
 
 	void raiseError(string e)
 	{
@@ -48,6 +54,7 @@ namespace config
 			CONFIG_READ_PROPERTY(enableConsole);
 
 			CONFIG_READ_PROPERTY(fps);
+			if (config.fps < -1)	config.fps = -1;
 
 			CONFIG_READ_PROPERTY(inspectMsgPack);
 			CONFIG_READ_PROPERTY(saveRequestPack);
@@ -59,13 +66,25 @@ namespace config
 
 			CONFIG_READ_PROPERTY(forceClosingGame);
 
-			if (config.fps < -1)	config.fps = -1;
+			if (j.contains("bootExternalApp"))
+			{
+				auto& Applist = j.at("bootExternalApp");
+				if (Applist.is_array())
+				{
+					for (int i = 0; i < Applist.size(); i++)
+						config.bootExternalApp.push_back(string(Applist[i]));
+				}
+				else config.bootExternalApp.push_back(string(Applist));
+			}
+			CONFIG_READ_PROPERTY(doExternalAppRelaunch);
 
 			printf("Successfully read config in `%s`\n", configFile.c_str());
 		}
 		catch (exception& e)
 		{
-			cout << "Exception occurred when reading config: " << e.what() << endl;
+			cout << "Exception occurred when reading the config: " << e.what() << endl;
+			printf("Plugin will use the default config setting.\n");
+			config = config_default;
 		}
 	}
 
