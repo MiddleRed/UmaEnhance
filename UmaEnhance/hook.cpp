@@ -1,5 +1,4 @@
 #include "uma.h"
-#include "utilities.h"
 #include "config.h"
 #include "network.h"
 #include "plugin.h"
@@ -34,7 +33,7 @@ int request_pack_hook (
 	int ret = reinterpret_cast<decltype(request_pack_hook)*>(request_pack_orig)(
 		src, dst, srcSize, dstCapacity);
 
-	plugin::pool.submit([src, dst, srcSize, ret]()
+	threadPool.submit([src, dst, srcSize, ret]()
 	{
 		if (config::get().saveRequestPack)
 		{
@@ -60,7 +59,7 @@ int response_pack_hook(
 	int ret = reinterpret_cast<decltype(response_pack_hook)*>(response_pack_orig)(
 		src, dst, compressedSize, dstCapacity);
 
-	plugin::pool.submit([dst, ret]()
+	threadPool.submit([dst, ret]()
 	{
 		if (config::get().saveResponsePack)
 		{
@@ -157,8 +156,8 @@ void HookAttach()
 	config::loadConfig();
 	if (config::get().enableConsole)	createConsole();
 
-	plugin::initThreadPool();
-	plugin::pool.submit(plugin::HandleGameLaunch);
+	initThreadPool();
+	threadPool.submit(plugin::HandleGameLaunch);
 
 	if (MH_Initialize() != MH_OK)
 	{

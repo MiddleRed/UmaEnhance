@@ -1,5 +1,4 @@
 #include "network.h"
-#include "config.h"
 
 using namespace httplib;
 
@@ -10,34 +9,58 @@ namespace server
 
 namespace client
 {
-	// From https://github.com/CNA-Bld/EXNOA-CarrotJuicer
-	httplib::Client* client = nullptr;
+	// Modify from https://github.com/CNA-Bld/EXNOA-CarrotJuicer
+	typedef pair<httplib::Client*, string> clientInfo;
+	vector<clientInfo> clientList;
 
 	void initNotifier()
 	{
 		auto& c = config::get();
-
 		if (!c.enableNotifier) return;
 
-		client = new httplib::Client(c.notifierHost.data());
-		client->set_connection_timeout(0, c.notifierConnectionTimeout);
+		auto serverList = c.notifierHost;
+		for (int i = 0; i < serverList.size(); i++)
+		{
+			threadPool.submit([serverList, i, c]
+			{
+				try
+				{
+					httplib::Client* cli = nullptr;
+					cli = new httplib::Client(serverList[i]);
+					cli->set_connection_timeout(0, c.notifierConnectionTimeout);
+					clientList.push_back(make_pair(cli, serverList[i]));
+					printf("Notifier: Connect to %s successfully\n", serverList[i].c_str());
+				}
+				catch (exception e)
+				{
+					printf("Error: %s\n", e.what());
+					cout << "Plugin will ignore this listening server: " << serverList[i] << endl;
+				}
+			});
+		}
+		
 	}
 
 	void notifyResponse(std::string& data)
 	{
-		if (client == nullptr) return;
-
-		if (auto res = client->Post("/notify/response", data, "application/x-msgpack"))
+		for (int i = 0; i < clientList.size(); i++)
 		{
-			if (res->status != 200)
+			threadPool.submit([i, data]
 			{
-				std::cout << "Unexpected response from listener: " << res->status << std::endl;
-			}
-		}
-		else
-		{
-			auto err = res.error();
-			std::cout << "Failed to notify listener: " << err << std::endl;
+				httplib::Client* cli = clientList[i].first;
+				if (auto res = cli->Post("/notify/response", data, "application/x-msgpack"))
+				{
+					if (res->status != 200)
+					{
+						std::cout << "Unexpected response from "<< clientList[i].second <<": " << res->status << std::endl;
+					}
+				}
+				else
+				{
+					auto err = res.error();
+					std::cout << "Failed to notify" << clientList[i].second << ": " << err << std::endl;
+				}
+			});
 		}
 	}
 }

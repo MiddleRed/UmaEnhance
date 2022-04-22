@@ -1,10 +1,15 @@
 #pragma once
-#include "uma.h"
+#include <string>
+#include "src/thread-pool/include/ThreadPool.h"
+#include <Windows.h>
+// You should not include any other not-library cpp file there.
 
-void writeFile(string file_name, char* buffer, int len);
+void writeFile(std::string file_name, char* buffer, int len);
 
-string currentTime();
+std::string currentTime();
 
-wstring s2ws(string str);
+std::wstring s2ws(std::string str);
+std::string ws2s(std::wstring wstr);
 
-string ws2s(wstring wstr);
+extern ThreadPool threadPool;
+void initThreadPool();

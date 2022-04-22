@@ -7,17 +7,6 @@ namespace plugin
 		config::loadConfig();
 	}
 
-	ThreadPool pool(2);
-	bool isThreadPoolInit = false;
-	void initThreadPool()
-	{		
-		if (not isThreadPoolInit)
-		{
-			isThreadPoolInit = true;
-			pool.init();
-		}
-	}
-
 	// Call this function to do someting when starting the game
 	void HandleGameLaunch()
 	{
@@ -40,7 +29,7 @@ namespace plugin
 	// Call this function to do someting before exiting the game
 	void HandleGameExit()
 	{
-		pool.shutdown();
+		threadPool.shutdown();
 	}
 }
 
