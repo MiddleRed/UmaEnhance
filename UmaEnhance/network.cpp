@@ -13,6 +13,8 @@ namespace client
 	typedef pair<httplib::Client*, string> clientInfo;
 	vector<clientInfo> clientList;
 
+	// cout cannot ensure thread safety
+	// Use printf() if the submitted function contains printing.
 	void initNotifier()
 	{
 		auto& c = config::get();
@@ -34,7 +36,7 @@ namespace client
 				catch (exception e)
 				{
 					printf("Error: %s\n", e.what());
-					cout << "Plugin will ignore this listening server: " << serverList[i] << endl;
+					printf("Plugin will ignore this listening server: %s\n", serverList[i].c_str());
 				}
 			});
 		}
@@ -52,13 +54,14 @@ namespace client
 				{
 					if (res->status != 200)
 					{
-						std::cout << "Unexpected response from "<< clientList[i].second <<": " << res->status << std::endl;
+						printf("Unexpected response code from %s: %d\n", clientList[i].second.c_str(), res->status);
 					}
 				}
 				else
 				{
-					auto err = res.error();
-					std::cout << "Failed to notify" << clientList[i].second << ": " << err << std::endl;
+					stringstream ss;
+					ss << res.error();
+					printf("Failed to notify %s: %s\n", clientList[i].second.c_str(), ss.str().c_str());
 				}
 			});
 		}
