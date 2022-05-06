@@ -3,8 +3,8 @@
 namespace plugin
 {
 	void refreshConfig() {
-		printf("Note: Not all settings can be updated when the game is still open.\n");
 		config::loadConfig();
+		printf("Note: Not all settings can be updated when the game is still open.\n");
 	}
 
 	// Call this function to do someting when starting the game

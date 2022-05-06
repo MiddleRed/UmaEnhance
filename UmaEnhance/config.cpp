@@ -13,7 +13,7 @@ namespace config
 	{
 		true,	// enableConsole
 
-		0,		// fps
+		60,		// fps
 
 		false,	// inspectMsgPack
 		true,	// saveRequestPack
